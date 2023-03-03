@@ -82,12 +82,12 @@ const fetchDetailsById=(id)=>{
 //show Details Data by Id
 const displayDetailsById=(details)=>{
     console.log(details)
-    const {description,image_link,input_output_examples,accuracy,pricing, features}=details;
+    const {description,image_link,input_output_examples,accuracy,pricing, features,integrations}=details;
     //modal left description Text
     const detailsText=document.getElementById('description');
     detailsText.innerHTML=`${description}`
     //pricing
-    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price} ${pricing[0].plan}`;
+    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price===0?'No Cost/':pricing[0].price} ${pricing[0].plan}`;
     const pricePro=document.getElementById('price-pro').innerHTML=`${pricing[1].price} ${pricing[1].plan}`;
     const priceEnterprise=document.getElementById('price-enterprise').innerHTML=`${pricing[2].price} ${pricing[2].plan}`;
     //Modal Features
@@ -97,6 +97,14 @@ const displayDetailsById=(details)=>{
         modalFeatures.innerHTML+=
         `<li>${features[feature].feature_name}</li>`;
     }
+    //integrations
+    const integrationsList=document.getElementById('details-integrations');
+    integrationsList.innerText='';
+
+    integrations.forEach(item=>{
+        integrationsList.innerHTML+=
+        `<li>${item}</li>`;
+    })
     //modal right side card
     const detailsCard=document.getElementById('details-card');
     detailsCard.innerHTML=`
@@ -104,7 +112,7 @@ const displayDetailsById=(details)=>{
     <div class="card-body">
       <h5 class="card-title text-center">${input_output_examples[0].input}</h5>
       <p class="card-text text-center">${input_output_examples[0].output}</p>
-      <button class="btn btn-primary position-absolute accuricy-btn">${accuracy.score*100}% Accouricy</button>
+      <button class="btn btn-primary position-absolute accuricy-btn ${accuracy.score===null?'d-none':''}">${accuracy.score*100}% Accouricy</button>
     </div>
     `
 }
