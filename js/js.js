@@ -50,6 +50,10 @@ const displayAiTools=(data,limit)=>{
 //show default 6 Items
 loadAiTools(6);
 
+//show all items
+document.getElementById('btn-showAll').addEventListener('click',function(){
+    loadAiTools();  
+})
 
 
 /*
