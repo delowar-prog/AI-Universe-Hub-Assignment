@@ -18,7 +18,7 @@ const displayAiTools=(data,limit)=>{
      //Iterate all Items
     data.forEach(singleAi => {
         console.log(singleAi)
-        const {image, features, name, published_in}=singleAi;
+        const {id,image, features, name, published_in}=singleAi;
         aiContainer.innerHTML +=`
         <div class="col">
             <div class="card p-3 w-100">
@@ -39,21 +39,36 @@ const displayAiTools=(data,limit)=>{
                             <h3 class="mb-3">${name}</h3>
                             <p class="fs-5"><i class="fa-solid fa-calendar-days fs-4"></i> ${published_in}</p>
                         </div>
-                        <button style="border-radius:50%; padding:10px 15px;" class="fs-5 border-0 text-danger"><i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick="fetchDetailsById('${id}')" style="border-radius:50%; padding:10px 15px;" class="fs-5 border-0 text-danger"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
         </div>`;
     });
+    showSpinner(false);
 }
 
 //show default 6 Items
-loadAiTools(6);
-
+const loadBodyData=()=>{
+    showSpinner(true);
+    loadAiTools(6);
+}
+    
 //show all items
 document.getElementById('btn-showAll').addEventListener('click',function(){
+    showSpinner(true);
     loadAiTools();  
 })
+
+// loader/spinner 
+const showSpinner=isLoading=>{
+    const spinner=document.getElementById('spinner');
+    if(isLoading===true){
+        spinner.classList.remove('d-none');
+    }else{
+        spinner.classList.add('d-none');
+    }
+}
 
 
 /*
