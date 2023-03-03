@@ -12,3 +12,31 @@ ul, ol{
     background-color: #b31a1a;
     color:#fff;
 }
+
+/*Modal style*/
+.btn-close {
+    background-color: #EB5757;
+    opacity: 100% !important;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    right: -15px;
+    top: -15px;
+}
+.modal-custom-style{
+    padding: 70px;
+}
+
+/*accuricy-btn*/
+.accuricy-btn{
+    top:30px;
+    right: 30px;
+    background-color: #EB5757;
+    color:#fff;
+}
+
+.content-left{
+    padding:40px;
+    border: 1px solid #EB5757;
+    border-radius: 10px;
+}

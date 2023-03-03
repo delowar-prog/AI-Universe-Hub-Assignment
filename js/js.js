@@ -17,7 +17,7 @@ const displayAiTools=(data,limit)=>{
      }
      //Iterate all Items
     data.forEach(singleAi => {
-        console.log(singleAi)
+        // console.log(singleAi)
         const {id,image, features, name, published_in}=singleAi;
         aiContainer.innerHTML +=`
         <div class="col">
@@ -39,7 +39,7 @@ const displayAiTools=(data,limit)=>{
                             <h3 class="mb-3">${name}</h3>
                             <p class="fs-5"><i class="fa-solid fa-calendar-days fs-4"></i> ${published_in}</p>
                         </div>
-                        <button onclick="fetchDetailsById('${id}')" style="border-radius:50%; padding:10px 15px;" class="fs-5 border-0 text-danger"><i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick="fetchDetailsById('${id}')" style="border-radius:50%; padding:10px 15px;" class="fs-5 border-0 text-danger"><i class="fa-solid fa-arrow-right" data-bs-toggle="modal" data-bs-target="#showDetailsModal"></i></button>
                     </div>
                 </div>
             </div>
@@ -70,6 +70,31 @@ const showSpinner=isLoading=>{
     }
 }
 
+// fetch Details by Id
+const fetchDetailsById=(id)=>{
+    const url=`https://openapi.programming-hero.com/api/ai/tool/${id}`;
+    fetch(url)
+    .then(res=>res.json())
+    .then(data=>displayDetailsById(data.data))
+    .catch(error=>console.log(error));
+}
+
+//show Details Data by Id
+const displayDetailsById=(details)=>{
+    console.log(details)
+    const {description,image_link,input_output_examples,accuracy}=details;
+    const detailsText=document.getElementById('description');
+    detailsText.innerHTML=`${description}`
+    const detailsCard=document.getElementById('details-card');
+    detailsCard.innerHTML=`
+    <img src="${image_link[0]}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title text-center">${input_output_examples[0].input}</h5>
+      <p class="card-text text-center">${input_output_examples[0].output}</p>
+      <button class="btn btn-primary position-absolute accuricy-btn">${accuracy.score*100}% Accouricy</button>
+    </div>
+    `
+}
 
 /*
 ${features.map(element =>`
