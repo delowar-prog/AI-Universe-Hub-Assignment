@@ -82,9 +82,22 @@ const fetchDetailsById=(id)=>{
 //show Details Data by Id
 const displayDetailsById=(details)=>{
     console.log(details)
-    const {description,image_link,input_output_examples,accuracy}=details;
+    const {description,image_link,input_output_examples,accuracy,pricing, features}=details;
+    //modal left description Text
     const detailsText=document.getElementById('description');
     detailsText.innerHTML=`${description}`
+    //pricing
+    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price} ${pricing[0].plan}`;
+    const pricePro=document.getElementById('price-pro').innerHTML=`${pricing[1].price} ${pricing[1].plan}`;
+    const priceEnterprise=document.getElementById('price-enterprise').innerHTML=`${pricing[2].price} ${pricing[2].plan}`;
+    //Modal Features
+    const modalFeatures=document.getElementById('details-features');
+    modalFeatures.innerText='';
+    for(let feature in features){
+        modalFeatures.innerHTML+=
+        `<li>${features[feature].feature_name}</li>`;
+    }
+    //modal right side card
     const detailsCard=document.getElementById('details-card');
     detailsCard.innerHTML=`
     <img src="${image_link[0]}" class="card-img-top" alt="...">
