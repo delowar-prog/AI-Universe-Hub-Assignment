@@ -87,9 +87,9 @@ const displayDetailsById=(details)=>{
     const detailsText=document.getElementById('description');
     detailsText.innerHTML=`${description}`
     //pricing
-    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price===0?'No Cost/':pricing[0].price} ${pricing[0].plan}`;
-    const pricePro=document.getElementById('price-pro').innerHTML=`${pricing[1].price} ${pricing[1].plan}`;
-    const priceEnterprise=document.getElementById('price-enterprise').innerHTML=`${pricing[2].price} ${pricing[2].plan}`;
+    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price==='0'?'free of cost/':pricing[0].price} ${pricing[0].plan}`;
+    const pricePro=document.getElementById('price-pro').innerHTML=`${pricing[1].price==='0'?'free of cost/':pricing[1].price} ${pricing[1].plan}`;
+    const priceEnterprise=document.getElementById('price-enterprise').innerHTML=`${pricing[2].price==='0'?'free of cost/':pricing[2].price} ${pricing[2].plan}`;
     //Modal Features
     const modalFeatures=document.getElementById('details-features');
     modalFeatures.innerText='';
@@ -100,21 +100,26 @@ const displayDetailsById=(details)=>{
     //integrations
     const integrationsList=document.getElementById('details-integrations');
     integrationsList.innerText='';
-
-    integrations.forEach(item=>{
-        integrationsList.innerHTML+=
-        `<li>${item}</li>`;
-    })
+    if(integrations===[] || integrations===false){
+        integrationsList.innerHTML=
+        `<li>No data found</li>`;
+    }else{
+        integrations.forEach(item=>{
+            integrationsList.innerHTML+=
+            `<li>${item}</li>`;
+        })
+    }
+    
     //modal right side card
     const detailsCard=document.getElementById('details-card');
     detailsCard.innerHTML=`
     <img src="${image_link[0]}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title text-center">${input_output_examples[0].input}</h5>
-      <p class="card-text text-center">${input_output_examples[0].output}</p>
+      <p class="card-text text-center">${input_output_examples[0].output==""?'No! Not Yet! Take a break!!!': input_output_examples[0].output}</p>
       <button class="btn btn-primary position-absolute accuricy-btn ${accuracy.score===null?'d-none':''}">${accuracy.score*100}% Accouricy</button>
     </div>
-    `
+    `;
 }
 
 /*
