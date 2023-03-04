@@ -1,5 +1,6 @@
+const url=`https://openapi.programming-hero.com/api/ai/tools`;
+
 const loadAiTools=async(limit)=>{
-    const url=`https://openapi.programming-hero.com/api/ai/tools`;
     const res=await fetch(url);
     const data=await res.json();
     displayAiTools(data.data.tools, limit);
@@ -8,6 +9,7 @@ const loadAiTools=async(limit)=>{
 const displayAiTools=(data,limit)=>{
     const aiContainer=document.getElementById('ai-container');
     aiContainer.innerText='';
+    // console.log(data);
     // Display Show all btn
     if(data.length > limit){
         data=data.slice(0, limit);
@@ -17,8 +19,7 @@ const displayAiTools=(data,limit)=>{
      }
      //Iterate all Items
     data.forEach(singleAi => {
-        // console.log(singleAi)
-        const {id,image, features, name, published_in}=singleAi;
+        const {id, image, features, name, published_in}=singleAi;
         aiContainer.innerHTML +=`
         <div class="col">
             <div class="card p-3 w-100">
@@ -122,6 +123,22 @@ const displayDetailsById=(details)=>{
     `;
 }
 
+/*sort by date*/
+const sortByDate=async(limit)=>{
+    const res=await fetch(url);
+    const data=await res.json();
+    displayAiTools(data.data.tools.sort(sortAssending), limit);
+}
+
+const sortAssending=(firstDate,secondDate)=>{
+    const dateA=new Date(firstDate.published_in); //convert string to Date
+    const dateB=new Date(secondDate.published_in);
+    if(dateA>dateB){
+        return 1;
+    }else if(dateA<dateB){
+        return -1;
+    }else{return 0}
+}
 /*
 ${features.map(element =>`
 <li>${element}</li>
