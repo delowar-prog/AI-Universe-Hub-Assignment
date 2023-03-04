@@ -81,50 +81,58 @@ const fetchDetailsById=(id)=>{
 }
 
 //show Details Data by Id
-const displayDetailsById=(details)=>{
-    console.log(details)
-    const {description,image_link,input_output_examples,accuracy,pricing, features,integrations}=details;
-    //modal left description Text
-    const detailsText=document.getElementById('description');
-    detailsText.innerHTML=`${description}`
-    //pricing
-    const priceBasic=document.getElementById('price-basic').innerHTML=`${pricing[0].price==='0'?'free of cost/':pricing[0].price} ${pricing[0].plan}`;
-    const pricePro=document.getElementById('price-pro').innerHTML=`${pricing[1].price==='0'?'free of cost/':pricing[1].price} ${pricing[1].plan}`;
-    const priceEnterprise=document.getElementById('price-enterprise').innerHTML=`${pricing[2].price==='0'?'free of cost/':pricing[2].price} ${pricing[2].plan}`;
-    //Modal Features
-    const modalFeatures=document.getElementById('details-features');
-    modalFeatures.innerText='';
-    for(let feature in features){
-        modalFeatures.innerHTML+=
-        `<li>${features[feature].feature_name}</li>`;
-    }
-    //integrations
-    const integrationsList=document.getElementById('details-integrations');
-    integrationsList.innerText='';
-    if(integrations===[] || integrations===false){
-        integrationsList.innerHTML=
-        `<li>No data found</li>`;
-    }else{
-        integrations.forEach(item=>{
-            integrationsList.innerHTML+=
-            `<li>${item}</li>`;
-        })
-    }
-    
-    //modal right side card
-    const detailsCard=document.getElementById('details-card');
-    detailsCard.innerHTML=`
-    <img src="${image_link[0]}" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title text-center">${input_output_examples[0].input}</h5>
-      <p class="card-text text-center">${input_output_examples[0].output==""?'No! Not Yet! Take a break!!!': input_output_examples[0].output}</p>
-      <button class="btn btn-primary position-absolute accuricy-btn ${accuracy.score===null?'d-none':''}">${accuracy.score*100}% Accouricy</button>
-    </div>
-    `;
-}
+        const displayDetailsById=(details)=>{
+            console.log(details)
+            const {description,image_link,input_output_examples,accuracy,pricing, features,integrations}=details;
+            //modal left description Text
+            const detailsText=document.getElementById('description');
+            detailsText.innerHTML=`${description}`
+            //Pricing Validation
+            if(pricing===null){
+                document.getElementById('price-basic').innerHTML=`free of cost`; 
+                document.getElementById('price-pro').innerHTML=`free of cost`; 
+                document.getElementById('price-enterprise').innerHTML=`free of cost`; 
+            }else{
+                document.getElementById('price-basic').innerHTML=`${pricing[0].price} ${pricing[0].plan}`;
+                document.getElementById('price-pro').innerHTML=`${pricing[1].price} ${pricing[1].plan}`;
+                document.getElementById('price-enterprise').innerHTML=`${pricing[2].price} ${pricing[2].plan}`;
+            }
+        
+            //Modal Features
+            const modalFeatures=document.getElementById('details-features');
+            modalFeatures.textContent='';
+            for(let feature in features){
+                modalFeatures.innerHTML+=
+                `<li>${features[feature].feature_name}</li>`;
+            }
+            //integrations
+            const integrationsList=document.getElementById('details-integrations');
+            integrationsList.innerText='';
+            if(integrations===null){
+                integrationsList.innerText=
+                `No data found`;
+            }else{
+                integrations.forEach(item=>{
+                    integrationsList.innerHTML+=`<li>${item}</li>`;
+                })
+            }
+            
+            //modal right side card
+            const detailsCard=document.getElementById('details-card');
+            detailsCard.innerHTML=`
+            <img src="${image_link[0]}" class="card-img-top" alt="...">
+            <div class="card-body">
+            
+            <h5 class="card-title text-center">${input_output_examples===null? "Their is no Examples" :input_output_examples[0].input}</h5>
+            <p class="card-text text-center">${input_output_examples===null?'No! Not Yet! Take a break!!!': input_output_examples[0].output}</p>
+            <button class="btn btn-primary position-absolute accuricy-btn ${accuracy.score===null?'d-none':''}">${accuracy.score*100}% Accouricy</button>
+            </div>
+            `;
+        }
 
 /*sort by date*/
 const sortByDate=async(limit)=>{
+    showSpinner(true);
     const res=await fetch(url);
     const data=await res.json();
     displayAiTools(data.data.tools.sort(sortAssending), limit);
@@ -139,7 +147,9 @@ const sortAssending=(firstDate,secondDate)=>{
         return -1;
     }else{return 0}
 }
+
 /*
 ${features.map(element =>`
 <li>${element}</li>
 `)}*/
+
